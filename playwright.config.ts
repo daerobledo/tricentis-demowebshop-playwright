@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 /**
- * Configuración principal de Playwright para Tricentis Demo Web Shop.
+ * Configuración principal de Playwright para Tricentis Demo Web Shop y Servicios Web (API).
  * - Ejecuta las pruebas sobre Google Chrome.
  * - Captura screenshots automáticamente cuando un test falla y las adjunta al reporte HTML
  *   y al directorio de resultados.
@@ -30,6 +30,9 @@ export default defineConfig({
     viewport: { width: 1280, height: 720 },
     actionTimeout: 15_000,
     navigationTimeout: 30_000,
+    extraHTTPHeaders: {
+      Accept: 'application/json, text/plain, */*',
+    },
   },
 
   projects: [

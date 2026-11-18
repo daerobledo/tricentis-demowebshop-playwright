@@ -1,5 +1,6 @@
 /**
- * Tipos e interfaces del dominio de pruebas para Tricentis Demo Web Shop.
+ * Tipos e interfaces del dominio de pruebas UI (Tricentis Demo Web Shop)
+ * y pruebas de Servicios Web / API (Mercado Libre).
  */
 
 export type Gender = 'Male' | 'Female';
@@ -28,4 +29,26 @@ export interface CartItemExpectation {
   product: ProductTestData;
   quantity: number;
   expectedSubtotal: number;
+}
+
+/**
+ * Interfaces para respuestas del Servicio Web de Mercado Libre
+ * Endpoint: GET https://www.mercadolibre.com.ar/menu/departments
+ */
+export interface MercadoLibreCategory {
+  id?: string;
+  name: string;
+  permalink?: string;
+}
+
+export interface MercadoLibreDepartment {
+  name: string;
+  categories?: MercadoLibreCategory[];
+}
+
+export interface MercadoLibreDepartmentsResponse {
+  departments: MercadoLibreDepartment[];
+  landings?: unknown[];
+  more_categories?: unknown;
+  high_priority?: unknown[];
 }

@@ -33,18 +33,12 @@ export class RegisterPage extends BasePage {
     this.validationErrorSummary = page.locator('.validation-summary-errors');
   }
 
-  /**
-   * Abre la página principal y navega a Register desde la barra superior.
-   */
   async openFromHome(): Promise<void> {
     await this.navigateTo('/');
     await this.clickRegisterInHeader();
     await expect(this.page).toHaveURL(/\/register/i);
   }
 
-  /**
-   * Selecciona el género indicado.
-   */
   async selectGender(gender: Gender): Promise<void> {
     if (gender === 'Male') {
       await this.genderMaleRadio.check();
@@ -53,9 +47,6 @@ export class RegisterPage extends BasePage {
     }
   }
 
-  /**
-   * Completa todos los campos obligatorios del formulario de registro y envía el formulario.
-   */
   async submitRegistrationForm(userData: RegisterUserData): Promise<void> {
     await this.selectGender(userData.gender);
     await this.firstNameInput.fill(userData.firstName);
@@ -66,9 +57,6 @@ export class RegisterPage extends BasePage {
     await this.registerButton.click();
   }
 
-  /**
-   * Completa el alta exitosa y avanza a la página principal si aparece la pantalla de confirmación.
-   */
   async completeRegistrationAndRedirectHome(userData: RegisterUserData): Promise<void> {
     await this.submitRegistrationForm(userData);
     await expect(this.registrationCompletedMessage).toContainText('Your registration completed');
@@ -77,9 +65,6 @@ export class RegisterPage extends BasePage {
     }
   }
 
-  /**
-   * Devuelve el mensaje de error de validación del formulario de registro.
-   */
   async getErrorMessage(): Promise<string> {
     await expect(this.validationErrorSummary).toBeVisible();
     return (await this.validationErrorSummary.innerText()).trim();

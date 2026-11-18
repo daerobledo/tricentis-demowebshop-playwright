@@ -1,4 +1,4 @@
-# Estrategia de Pruebas de API y Caso Documentado
+# Estrategia de Pruebas de API y Casos Documentados / Automatizados
 
 ## 1. Estrategia de Pruebas de API (5 Fases)
 El proceso de validación de endpoints se estructura en cinco etapas:
@@ -6,10 +6,21 @@ El proceso de validación de endpoints se estructura en cinco etapas:
 1. **Detección de servicios y alcance**: Relevamiento mediante documentación técnica (Swagger / OpenAPI) o inspección de tráfico en la pestaña *Network* de las herramientas de desarrollador del navegador (DevTools).
 2. **Análisis de request**: Revisión del método HTTP (`GET`, `POST`, `PUT`, `PATCH`, `DELETE`), URIs, parámetros, cabeceras requeridas, estructura del payload y códigos de respuesta esperados.
 3. **Diseño de escenarios y preparación de datos**: Definición de pruebas funcionales sobre casos felices (`200 OK`, `201 Created`), escenarios negativos (`400 Bad Request`, `401 Unauthorized`, `404 Not Found`), valores límite y esquemas de respuesta, utilizando variables de entorno para evitar datos rígidos.
-4. **Configuración en herramientas de prueba**: Organización de colecciones en Postman para validación manual e integración dentro del framework de automatización.
+4. **Configuración en herramientas de prueba**: Organización de colecciones en Postman para validación manual e integración dentro del framework de automatización mediante `APIRequestContext` de Playwright (`src/api/`).
 5. **Ejecución y validación**: Verificación de *status codes*, tipado y campos en el JSON devuelto, *headers*, tiempos de respuesta y persistencia de información.
 
-## 2. Caso de Prueba de API Documentado (`API-01`)
+## 2. Caso de Prueba de API Automatizado en el Framework (`AUT-API-01`)
+
+### AUT-API-01: Verificar estructura de departamentos en servicio web de Mercado Libre
+- **Archivo de Prueba**: `tests/api-mercadolibre.spec.ts`
+- **Cliente de Servicio**: `src/api/MercadoLibreApiService.ts` (extiende `src/api/BaseApiClient.ts`)
+- **Método y Endpoint**: `GET https://www.mercadolibre.com.ar/menu/departments`
+- **Aserciones Automatizadas**:
+  1. El código de respuesta HTTP es `200 OK`.
+  2. El cuerpo JSON de la respuesta contiene la propiedad `"departments"`.
+  3. `"departments"` es un arreglo (`Array`) no vacío con las categorías del menú.
+
+## 3. Caso de Prueba de API Documentado (`API-01`)
 
 ### API-01: Autenticación exitosa de usuario con credenciales válidas
 - **Objetivo**: Verificar que el servicio de login autentica correctamente a un usuario registrado, devuelve el código `200 OK` y genera un token de acceso válido.

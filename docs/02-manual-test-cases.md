@@ -81,7 +81,7 @@
   4. Hacer clic en el botón `Update shopping cart`.
 - **Resultado esperado**: Ítems A y B se eliminan del listado, Ítem C permanece en el carrito sin alteraciones, el contador superior baja a `Shopping cart (1)` y el Total se recalcula mostrando únicamente el importe del Ítem C.
 
-## 3. Cobertura Automatizada de Flujos Clave
+## 3. Cobertura Automatizada de Flujos Clave y Servicios Web
 
 | ID Caso | Flujo / Módulo | Archivo de Test | Descripción |
 | :--- | :--- | :--- | :--- |
@@ -91,4 +91,5 @@
 | **AUT-LOGIN-02** | Login | `tests/login.spec.ts` | Inicio de sesión fallido con contraseña errónea (`Testing111`) y validación de mensaje de error. |
 | **AUT-CART-02** | Carrito de Compras | `tests/cart.spec.ts` | Cálculo de subtotales parciales y monto total con múltiples ítems (Ítem A x2 + Ítem B x1). |
 | **AUT-CART-03** | Carrito de Compras | `tests/cart.spec.ts` | Eliminación simultánea de múltiples ítems (A y B) conservando el Ítem C y recalculando el total. |
+| **AUT-API-01** | Servicios Web (API) | `tests/api-mercadolibre.spec.ts` | Petición `GET https://www.mercadolibre.com.ar/menu/departments` verificando status `200 OK` y que el JSON contenga `"departments"`. |
 | **BUG-CART-01** *(Falla Forzada)* | Carrito de Compras | `tests/forced-failure-bug.spec.ts` | Caso de falla forzada que reproduce `BUG-CART-01` (`Qty = 9999999999`) para validar la creación automática de screenshots al fallar un test. |

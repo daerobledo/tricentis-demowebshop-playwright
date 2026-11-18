@@ -17,18 +17,11 @@ export class ProductPage extends BasePage {
     this.productPriceLabel = page.locator('.product-essential .product-price span').first();
   }
 
-  /**
-   * Abre la página del producto seleccionado.
-   */
   async openProduct(product: ProductTestData): Promise<void> {
     await this.navigateTo(product.urlPath);
     await expect(this.page.locator('h1[itemprop="name"]')).toContainText(product.name);
   }
 
-  /**
-   * Configura la cantidad deseada en el campo Qty y agrega el producto al carrito,
-   * esperando la barra de confirmación superior para garantizar que la petición AJAX finalice.
-   */
   async addProductToCart(product: ProductTestData, quantity = 1): Promise<void> {
     await this.openProduct(product);
     await this.quantityInput.fill(String(quantity));

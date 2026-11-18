@@ -53,8 +53,6 @@ export const INVALID_LOGIN_CREDENTIALS: LoginCredentials = {
 
 /**
  * Catálogo de productos de prueba (Módulo Carrito de Compras).
- * Se utilizan productos simples sin atributos obligatorios adicionales para garantizar
- * pruebas determinísticas de cálculo y eliminación en el carrito.
  */
 export const TEST_PRODUCTS: Record<'ITEM_A' | 'ITEM_B' | 'ITEM_C', ProductTestData> = {
   ITEM_A: {
@@ -73,6 +71,13 @@ export const TEST_PRODUCTS: Record<'ITEM_A' | 'ITEM_B' | 'ITEM_C', ProductTestDa
     unitPrice: 10.0,
   },
 };
+
+/**
+ * Endpoints de Servicios Web (API Testing).
+ */
+export const API_ENDPOINTS = {
+  MERCADOLIBRE_DEPARTMENTS: 'https://www.mercadolibre.com.ar/menu/departments',
+} as const;
 
 /**
  * Mensajes de error esperados según especificación funcional y casos de prueba.

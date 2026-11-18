@@ -21,17 +21,11 @@ export class LoginPage extends BasePage {
     this.validationErrorSummary = page.locator('.validation-summary-errors');
   }
 
-  /**
-   * Navega directamente a la pantalla de Login.
-   */
   async open(): Promise<void> {
     await this.navigateTo('/login');
     await expect(this.page).toHaveURL(/\/login/i);
   }
 
-  /**
-   * Ejecuta el flujo de inicio de sesión con las credenciales provistas.
-   */
   async login(credentials: LoginCredentials, rememberMe = false): Promise<void> {
     await this.emailInput.fill(credentials.email);
     await this.passwordInput.fill(credentials.password);
@@ -41,9 +35,6 @@ export class LoginPage extends BasePage {
     await this.loginButton.click();
   }
 
-  /**
-   * Obtiene el bloque completo del mensaje de error de autenticación fallida.
-   */
   async getLoginErrorMessage(): Promise<string> {
     await expect(this.validationErrorSummary).toBeVisible();
     return (await this.validationErrorSummary.innerText()).trim();
