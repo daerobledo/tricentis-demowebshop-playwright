@@ -7,16 +7,13 @@ import { ProductPage } from '../pages/ProductPage';
 import { RegisterPage } from '../pages/RegisterPage';
 import { ShoppingCartPage } from '../pages/ShoppingCartPage';
 
-/**
- * Definición de fixtures tipados para inyectar los Page Objects (UI) y los Clientes de Servicios Web (API)
- * directamente en cualquier caso de prueba.
- */
 interface DemoWebShopFixtures {
   registerPage: RegisterPage;
   loginPage: LoginPage;
   productPage: ProductPage;
   shoppingCartPage: ShoppingCartPage;
   mercadoLibreApi: MercadoLibreApiService;
+  captureScreenshotOnFailure: void;
 }
 
 export const test = base.extend<DemoWebShopFixtures>({
@@ -35,31 +32,28 @@ export const test = base.extend<DemoWebShopFixtures>({
   mercadoLibreApi: async ({ request }, use) => {
     await use(new MercadoLibreApiService(request));
   },
-});
+  captureScreenshotOnFailure: [
+    async ({ page }, use, testInfo) => {
+      await use();
+      if (testInfo.status !== testInfo.expectedStatus && page.url() !== 'about:blank') {
+        const screenshotsDir = path.resolve(__dirname, '../../tests/screenshots');
+        fs.mkdirSync(screenshotsDir, { recursive: true });
 
-/**
- * Hook global afterEach:
- * Además del ajuste `screenshot: 'only-on-failure'` en playwright.config.ts (que adjunta la
- * captura al reporte HTML y a `test-results/`), este hook guarda una copia con nombre legible
- * dentro de `tests/screenshots/` y la adjunta explícitamente al reporte cuando un test UI falla.
- */
-test.afterEach(async ({ page }, testInfo) => {
-  if (testInfo.status !== testInfo.expectedStatus && page.url() !== 'about:blank') {
-    const screenshotsDir = path.resolve(process.cwd(), 'tests', 'screenshots');
-    fs.mkdirSync(screenshotsDir, { recursive: true });
+        const safeTitle = testInfo.title
+          .replace(/[^a-zA-Z0-9_-]+/g, '_')
+          .replace(/^_+|_+$/g, '')
+          .toLowerCase();
+        const screenshotPath = path.join(screenshotsDir, `FAILED_${safeTitle}.png`);
 
-    const safeTitle = testInfo.title
-      .replace(/[^a-zA-Z0-9_-]+/g, '_')
-      .replace(/^_+|_+$/g, '')
-      .toLowerCase();
-    const screenshotPath = path.join(screenshotsDir, `FAILED_${safeTitle}.png`);
-
-    const buffer = await page.screenshot({ path: screenshotPath, fullPage: true });
-    await testInfo.attach('Evidencia de Falla (Screenshot)', {
-      body: buffer,
-      contentType: 'image/png',
-    });
-  }
+        const buffer = await page.screenshot({ path: screenshotPath, fullPage: true });
+        await testInfo.attach('Evidencia de Falla (Screenshot)', {
+          body: buffer,
+          contentType: 'image/png',
+        });
+      }
+    },
+    { auto: true },
+  ],
 });
 
 export { expect };
