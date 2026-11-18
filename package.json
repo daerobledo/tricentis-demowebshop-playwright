@@ -1,0 +1,22 @@
+{
+  "name": "tricentis-demowebshop-playwright",
+  "version": "1.0.0",
+  "description": "Framework de automatización E2E con Playwright y TypeScript (POM) para Tricentis Demo Web Shop",
+  "private": true,
+  "scripts": {
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:ui": "npx playwright test --ui",
+    "test:register": "npx playwright test tests/register.spec.ts",
+    "test:login": "npx playwright test tests/login.spec.ts",
+    "test:cart": "npx playwright test tests/cart.spec.ts",
+    "test:bug": "npx playwright test tests/forced-failure-bug.spec.ts",
+    "report": "npx playwright show-report",
+    "typecheck": "npx tsc --noEmit"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  }
+}
